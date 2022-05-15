@@ -15,7 +15,10 @@
         android:text="Day"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ButtonProvince"
-        app:layout_constraintTop_toBottomOf="@+id/View" />
+        app:layout_constraintHorizontal_bias="0.941"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/View"
+        app:layout_constraintVertical_bias="0.529" />
 
     <Spinner
         android:id="@+id/Province"
@@ -32,6 +35,7 @@
         android:id="@+id/Region"
         android:layout_width="131dp"
         android:layout_height="43dp"
+        android:contentDescription="@string/Regione"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
@@ -65,7 +69,10 @@
         android:layout_marginTop="40dp"
         android:text="Provnce"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.932"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/View"
-        tools:layout_editor_absoluteX="222dp" />
+        app:layout_constraintVertical_bias="0.529" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
