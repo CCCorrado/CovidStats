@@ -16,16 +16,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         RelativeLayout r = findViewById(R.id.loading);
         r.setVisibility(View.VISIBLE);
-        Thread thread = new Thread(new Runnable() {
 
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try  {
                     p.parseDownload();
-                    HashMap map = p.infoGiorno("2020-08-06");
-                    System.out.println(map);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -37,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
         thread.start();
-
     }
 }
