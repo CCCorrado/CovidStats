@@ -42,14 +42,11 @@ public class MainActivity extends AppCompatActivity {
         giorno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gson gson = new Gson();
-                String myJson = gson.toJson(vp);
-                intent.putExtra("myjson", myjson);
-
                 Intent i = new Intent(getApplicationContext(), GiornoActivity.class);
-                i.putExtra("parser", p);
                 startActivity(i);
             }
         });
+
+
     }
 }

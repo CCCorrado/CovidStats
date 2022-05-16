@@ -1,5 +1,8 @@
 package com.example.civica;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,35 +24,6 @@ public class Parser {
 
     public HashMap<String,Integer> getMapDownload() {
         return this.mapDownload;
-    }
-
-    public String getLast(){
-        BufferedReader buffer = null;
-        try {
-            // Si ottiene nella variabile last l'ultimo giorno del dataset
-            URL url = new URL("https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-province/dpc-covid19-ita-province-latest.csv");
-            URLConnection connection = url.openConnection();
-            InputStreamReader input = new InputStreamReader(connection.getInputStream());
-            buffer = new BufferedReader(input);
-
-            buffer.readLine();
-            String line = buffer.readLine();
-            String last = line.split(",")[0].split("T")[0];
-            return last;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (buffer != null) {
-                try {
-                    buffer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
     }
 
     public boolean parseDownload(){
@@ -111,9 +85,5 @@ public class Parser {
             map.put(provincie.get(i), mapDownload.get(key));
         }
         return map;
-    }
-
-    public static void main(String[] args) {
-        System.out.println("prova");
     }
 }
