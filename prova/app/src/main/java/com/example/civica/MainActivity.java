@@ -2,11 +2,11 @@ package com.example.civica;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
-
-import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_provincia);
 
         RelativeLayout r = findViewById(R.id.loading);
         r.setVisibility(View.VISIBLE);
@@ -37,5 +37,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         thread.start();
+
+        Button giorno = findViewById(R.id.ButtonDay);
+        giorno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Gson gson = new Gson();
+                String myJson = gson.toJson(vp);
+                intent.putExtra("myjson", myjson);
+
+                Intent i = new Intent(getApplicationContext(), GiornoActivity.class);
+                i.putExtra("parser", p);
+                startActivity(i);
+            }
+        });
     }
 }
