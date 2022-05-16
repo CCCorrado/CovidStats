@@ -19,11 +19,10 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 try  {
                     System.out.println("lol");
-                    EdCivicaTPSI.Parser p = new EdCivicaTPSI.Parser();
-                    System.out.println(p.parseDownload());
-                    HashMap<String, Integer> map = p.getMapDownload();
-                    System.out.println(map.keySet().size());
-                    System.out.println(map.get("LivornoD2022-05-15"));
+                    Parser p = new Parser();
+                    p.parseDownload();
+                    HashMap map = p.infoGiorno("2020-08-06");
+                    System.out.println(map);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
