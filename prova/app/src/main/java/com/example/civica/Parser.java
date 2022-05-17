@@ -73,6 +73,9 @@ public class Parser {
         LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
         for(int i = 0; i < giorni.size(); i++){
             String key = provincia + "D" + giorni.get(i);
+            if(mapDownload.get(key) == null){
+                return null;
+            }
             map.put(giorni.get(i), mapDownload.get(key));
         }
         return map;
@@ -82,6 +85,9 @@ public class Parser {
         LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
         for(int i = 0; i < provincie.size(); i++){
             String key = provincie.get(i) + "D" + giorno;
+            if(mapDownload.get(key) == null){
+                return null;
+            }
             map.put(provincie.get(i), mapDownload.get(key));
         }
         return map;

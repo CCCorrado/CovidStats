@@ -27,6 +27,7 @@ import java.util.LinkedHashMap;
 public class MainActivity extends AppCompatActivity {
 
     private Parser p = null;
+    private String data = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 try  {
                     Intent intent = getIntent();
-                    String data = intent.getStringExtra("key");
+                    data = intent.getStringExtra("key");
                     p = new Parser();
                     if(data == null || !data.equals("true")){
                         p.parseDownload();
@@ -68,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
         giorno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                writeToFile(p.exportString());
+                if(data == null || !data.equals("true")){
+                    writeToFile(p.exportString());
+                }
                 Bundle ePzl= new Bundle();
                 ePzl.putString("key", "true");
 

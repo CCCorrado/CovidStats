@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 
 public class GiornoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -80,8 +81,22 @@ public class GiornoActivity extends AppCompatActivity implements DatePickerDialo
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        String date = "year-month-day: " + year + "-" + month + "-" + day;
-        dateText.setText(date);
+        month += 1;
+        String date = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", day);
+
+        LinkedHashMap<String, Integer> map = p.infoGiorno(date);
+        if(map == null){
+            dateText.setText("Data selezionata errata");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (String key : map.keySet()) {
+            String tmp = sb.toString();
+            sb = new StringBuilder();
+            sb.append(key).append("\t:\t").append(map.get(key)).append("\n").append(tmp);
+        }
+        dateText.setText(sb.toString());
     }
 
     private boolean writeToFile(String data){
