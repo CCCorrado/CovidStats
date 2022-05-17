@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -33,7 +34,7 @@ public class GiornoActivity extends AppCompatActivity implements DatePickerDialo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giorno);
         dateText = findViewById(R.id.View);
-
+        dateText.setMovementMethod(new ScrollingMovementMethod());
 
         String importString = readFromFile(getApplicationContext());
         p = new Parser();
