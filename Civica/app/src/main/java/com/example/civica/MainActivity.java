@@ -244,7 +244,6 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String region = adapterView.getItemAtPosition(i).toString();
                 System.out.println(region);
-                Toast.makeText(adapterView.getContext(), region, Toast.LENGTH_LONG).show();
 
                 Spinner PROVINCE = (Spinner) findViewById(R.id.Province);
                 switch (region) {
