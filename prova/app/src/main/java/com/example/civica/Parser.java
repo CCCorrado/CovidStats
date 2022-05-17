@@ -1,28 +1,28 @@
 package com.example.civica;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Parser {
     private ArrayList<String> provincie;
     private ArrayList<String> giorni;
-    private HashMap<String, Integer> mapDownload;
+    private LinkedHashMap<String, Integer> mapDownload;
 
     public Parser(){
         provincie = new ArrayList<>();
         giorni = new ArrayList<>();
-        mapDownload = new HashMap<>();
+        mapDownload = new LinkedHashMap<>();
     }
 
-    public HashMap<String,Integer> getMapDownload() {
+    public LinkedHashMap<String,Integer> getMapDownload() {
         return this.mapDownload;
     }
 
@@ -69,8 +69,8 @@ public class Parser {
         return false;
     }
 
-    public HashMap<String, Integer> infoProvincia(String provincia){
-        HashMap<String, Integer> map = new HashMap<>();
+    public LinkedHashMap<String, Integer> infoProvincia(String provincia){
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
         for(int i = 0; i < giorni.size(); i++){
             String key = provincia + "D" + giorni.get(i);
             map.put(giorni.get(i), mapDownload.get(key));
@@ -78,12 +78,49 @@ public class Parser {
         return map;
     }
 
-    public HashMap<String, Integer> infoGiorno(String giorno){
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
+    public LinkedHashMap<String, Integer> infoGiorno(String giorno){
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
         for(int i = 0; i < provincie.size(); i++){
             String key = provincie.get(i) + "D" + giorno;
             map.put(provincie.get(i), mapDownload.get(key));
         }
         return map;
+    }
+
+    public String exportString (){
+        StringBuilder sb = new StringBuilder();
+        Iterator<Map.Entry<String, Integer>> it = mapDownload.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            sb.append(pair.getKey() + "," + pair.getValue() + "\n");
+        }
+        return sb.toString();
+    }
+
+    public boolean importString (String string){
+        giorni.clear();
+        provincie.clear();
+        mapDownload.clear();
+
+        BufferedReader buffer = null;
+        try {
+            buffer = new BufferedReader(new StringReader(string));
+            String line = "";
+            String csvSplitBy = ",";
+            while ((line = buffer.readLine()) != null) {
+                String row[] = line.split(csvSplitBy);
+                String values[] = row[0].split("D");
+                mapDownload.put(row[0], Integer.parseInt(row[1]));
+                if(!giorni.contains(values[1])){
+                    giorni.add(values[1]);
+                }
+                if(!provincie.contains(values[0])){
+                    provincie.add(values[0]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }
