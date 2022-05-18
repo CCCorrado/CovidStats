@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -370,7 +372,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         Button giorno = findViewById(R.id.ButtonDay);
         giorno.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -391,10 +392,12 @@ public class MainActivity extends AppCompatActivity {
         select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView result = findViewById(R.id.View);
-                result.setMovementMethod(new ScrollingMovementMethod());
                 Spinner spinner = findViewById(R.id.Province);
+                GridView result = findViewById(R.id.gridView);
+                TextView error = findViewById(R.id.View);
                 if(spinner != null && spinner.getSelectedItem() != null) {
+                    result.setVisibility(View.VISIBLE);
+                    error.setVisibility(View.GONE);
                     System.out.println(spinner.getSelectedItem());
                     String provincia = spinner.getSelectedItem().toString();
                     LinkedHashMap<String, Integer> map = p.infoProvincia(provincia);
@@ -403,16 +406,20 @@ public class MainActivity extends AppCompatActivity {
                     for (String key : map.keySet()) {
                         String tmp = sb.toString();
                         sb = new StringBuilder();
-                        sb.append(key).append("\t:\t").append(map.get(key)).append("\n").append(tmp);
+                        sb.append(key).append(";").append(map.get(key)).append(";").append(tmp);
                     }
-                    result.setText(sb.toString());
+                    String row[] = sb.toString().split(";");
+                    result.setAdapter(new TextAdapter(getApplicationContext(), row));
                 } else {
-                    result.setText("\n\nInserire una provincia corretta");
+                    result.setVisibility(View.GONE);
+                    error.setVisibility(View.VISIBLE);
+                    error.setGravity(Gravity.CENTER);
+                    error.setTextSize(50);
+                    error.setText("\n\nInserire una provincia corretta");
                 }
             }
         });
     }
-
     private boolean writeToFile(String data){
         File path = getApplicationContext().getFilesDir();
         try {

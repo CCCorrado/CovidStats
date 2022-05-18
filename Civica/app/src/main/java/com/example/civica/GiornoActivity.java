@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,15 +27,16 @@ import java.util.LinkedHashMap;
 
 public class GiornoActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private TextView dateText;
+    private TextView error;
+    private GridView result;
     private Parser p = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giorno);
-        dateText = findViewById(R.id.View);
-        dateText.setMovementMethod(new ScrollingMovementMethod());
+        error = findViewById(R.id.View);
+        result = findViewById(R.id.gridView);
 
         String importString = readFromFile(getApplicationContext());
         p = new Parser();
@@ -87,17 +89,23 @@ public class GiornoActivity extends AppCompatActivity implements DatePickerDialo
 
         LinkedHashMap<String, Integer> map = p.infoGiorno(date);
         if(map == null){
-            dateText.setText("Data selezionata errata");
+            result.setVisibility(View.GONE);
+            error.setVisibility(View.VISIBLE);
+            error.setText("Data selezionata errata");
             return;
         }
+
+        result.setVisibility(View.VISIBLE);
+        error.setVisibility(View.GONE);
 
         StringBuilder sb = new StringBuilder();
         for (String key : map.keySet()) {
             String tmp = sb.toString();
             sb = new StringBuilder();
-            sb.append(key).append("\t:\t").append(map.get(key)).append("\n").append(tmp);
+            sb.append(key).append(";").append(map.get(key)).append(";").append(tmp);
         }
-        dateText.setText(sb.toString());
+        String row[] = sb.toString().split(";");
+        result.setAdapter(new TextAdapter(getApplicationContext(), row));
     }
 
     private boolean writeToFile(String data){
